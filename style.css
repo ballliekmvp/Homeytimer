@@ -6,7 +6,16 @@ body {
     min-height: 100vh;
     background-color: #f0f0f0; /* Light background */
     margin: 0;
+    transition: background-color 0.5s ease; /* Optional: transition for fullscreen */
 }
+
+/* Fullscreen specific styles */
+body:-webkit-full-screen { background-color: #222; } /* Darker background in fullscreen */
+body:-moz-full-screen { background-color: #222; }
+body:-ms-full-screen { background-color: #222; }
+body:full-screen { background-color: #222; }
+body:fullscreen { background-color: #222; }
+
 
 .timer-container {
     display: flex;
@@ -16,17 +25,71 @@ body {
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    position: relative; /* Needed for absolute positioning of steam */
+    width: 300px; /* Give container a width for centering steam */
+}
+
+.teacup-image {
+     /* Added position relative to contain absolute steam */
+    position: relative;
+    margin-bottom: 20px;
+    /* Adjust margin-top to make space for steam */
+    margin-top: 30px;
 }
 
 .teacup-image img {
     width: 100px; /* Adjust size as needed */
     height: auto;
-    margin-bottom: 20px;
-    /* If you have a pixelated image, it might look best without smoothing */
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
+    display: block; /* Remove potential extra space below image */
 }
+
+/* --- Steam Animation Styles --- */
+.steam-animation {
+    position: absolute;
+    top: 0; /* Position relative to the top of the .timer-container */
+    left: 50%;
+    transform: translateX(-50%); /* Center the animation area */
+    width: 80px; /* Width of the animation area */
+    height: 50px; /* Height for the animation */
+    pointer-events: none; /* Allow clicks to pass through */
+    overflow: hidden; /* Hide bubbles that go outside this area */
+}
+
+.steam-bubble {
+    position: absolute;
+    bottom: 0; /* Start from the bottom of the animation area */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px; /* Size of a steam bubble */
+    height: 8px;
+    background-color: rgba(139, 195, 74, 0.5); /* Greenish, semi-transparent */
+    border-radius: 50%;
+    animation: steam-float 4s infinite ease-out; /* Animation applied */
+    opacity: 0; /* Start invisible */
+}
+
+/* Delay animations for different bubbles */
+.steam-bubble.delay1 { animation-delay: 1s; }
+.steam-bubble.delay2 { animation-delay: 2s; }
+
+@keyframes steam-float {
+    0% {
+        transform: translate(-50%, 0);
+        opacity: 0.5; /* Start with some visibility */
+    }
+    50% {
+         opacity: 0.8; /* Max visibility halfway */
+    }
+    100% {
+        transform: translate(-50%, -100px); /* Float upwards */
+        opacity: 0; /* Fade out */
+    }
+}
+/* --- End Steam Animation Styles --- */
+
 
 .progress-bar-container {
     width: 200px; /* Adjust width as needed */
@@ -54,9 +117,25 @@ body {
 .buttons {
     display: flex;
     gap: 10px;
+    margin-bottom: 15px; /* Space between preset buttons and custom section */
 }
 
-.buttons button {
+.custom-time-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px; /* Space between custom section and fullscreen button */
+}
+
+.custom-time-section input[type="number"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 80px; /* Adjust input width */
+}
+
+.buttons button,
+.custom-time-section button,
+#fullscreen-button {
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -65,12 +144,14 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.buttons button[data-minutes] {
+.buttons button[data-minutes],
+#set-custom-button { /* Apply green style to set custom */
     background-color: #8bc34a; /* Green background for time buttons */
     color: white;
 }
 
-.buttons button[data-minutes]:hover {
+.buttons button[data-minutes]:hover,
+#set-custom-button:hover {
     background-color: #7cb342; /* Darker green on hover */
 }
 
@@ -81,4 +162,13 @@ body {
 
 #reset-button:hover {
     background-color: #d5d5d5; /* Darker grey on hover */
+}
+
+#fullscreen-button {
+    background-color: #555; /* Darker button for fullscreen */
+    color: white;
+}
+
+#fullscreen-button:hover {
+    background-color: #333;
 }
