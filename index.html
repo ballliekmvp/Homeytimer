@@ -8,18 +8,34 @@
 </head>
 <body>
     <div class="timer-container">
+        <div class="steam-animation">
+            <div class="steam-bubble"></div>
+            <div class="steam-bubble delay1"></div>
+            <div class="steam-bubble delay2"></div>
+        </div>
+
         <div class="teacup-image">
             <img src="teacup_placeholder.png" alt="Pixelated Teacup">
-            </div>
+        </div>
+
         <div class="progress-bar-container">
             <div class="progress-bar"></div>
         </div>
+
         <div class="timer-display">00:00</div>
+
         <div class="buttons">
             <button data-minutes="3">3 min</button>
             <button data-minutes="5">5 min</button>
             <button id="reset-button">reset</button>
         </div>
+
+        <div class="custom-time-section">
+            <input type="number" id="custom-time-input" placeholder="Minutes" min="1">
+            <button id="set-custom-button">Set Custom</button>
+        </div>
+
+        <button id="fullscreen-button">Fullscreen</button>
     </div>
 
     <script src="script.js"></script>
